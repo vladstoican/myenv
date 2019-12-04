@@ -14,7 +14,7 @@ alias system-update='sudo apt-get update && time sudo apt-get dist-upgrade'
 alias install='sudo apt-get install $1'
 alias search='sudo apt-cache search $1'
 alias cpv='rsync -ah --info=progress2'
-lt='du -sh * | sort -h'
+alias lt='du -sh * | sort -h'
 alias v='f -e vim' # quick opening files with vim
 
 # Add local bin 
@@ -104,12 +104,43 @@ function bd() {
 }
 
 
+function atoi
+{
+	#Returns the integer representation of an IP arg, passed in ascii dotted-decimal notation (x.x.x.x)
+	IP=$1; IPNUM=0
+	for (( i=0 ; i<4 ; ++i )); do
+		((IPNUM+=${IP%%.*}*$((256**$((3-${i}))))))
+		IP=${IP#*.}
+	done
+	echo $IPNUM 
+} 
+
+function itoa
+{
+	# Returns the dotted-decimal ascii form of an IP arg passed in integer format
+	echo -n $(($(($(($((${1}/256))/256))/256))%256)).
+	echo -n $(($(($((${1}/256))/256))%256)).
+	echo -n $(($((${1}/256))%256)).
+	echo $((${1}%256)) 
+}
+
+function hostgen 
+{
+	PREFIX=$1
+	COUNT=$2
+	STARTIP=$3
+	ENDIP=$(itoa $(expr $(atoi $STARTIP) + $COUNT - 1))
+
+ 	seq -f "${PREFIX}%0${#COUNT}g" 1 $COUNT > /tmp/file1
+	prips $STARTIP $ENDIP > /tmp/file2
+	paste /tmp/file1 /tmp/file2
+}
+
+# Kitty special - do not forget about downloaddir in kitty.ini
 winscp() { echo -ne "\033];__ws:${PWD}\007"; }
 
-get() { 
-	printf "\033]0;__pw:"`pwd`"\007" ; 
-	for file in $* ; do printf "\033]0;__rv:"${file}"\007" ; done ; 
-	printf "\033]0;__ti\007" ; 
+get() {
+	for file in ${*}; do echo -ne "\033];__rv:${file}\007"; done;
 }
 
 # awesome!  CD AND LA. I never use 'cd' anymore...
@@ -134,8 +165,9 @@ jlremote(){
 #CUDA 
 export PATH=/usr/local/cuda-10.1/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64:$LD_LIBRARY_PATH
+export CUDA_PATH=/usr/local/cuda-10.1/lib64
 
 eval "$(fasd --init auto)"
 
 #export PATH=~/bin:/opt/cmu/bin:$PATH
-
+export PATH=/opt/go/bin:$PATH
