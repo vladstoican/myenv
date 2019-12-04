@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cp -r bin/ ~/
+cp -pr bin/ ~/
 cp .bashrc ~/
 cp .mybashrc ~/
 cp .vimrc ~/
