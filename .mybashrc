@@ -129,16 +129,17 @@ function itoa
 
 function hostgen 
 {
-	if [[ $# -ne 3 ]];then
-		echo "hostgen host name prefix (e.g: cn); number of host (e.g: 100); first ip address (e.g: 192.168.1.1)"
-		echo "hostgen cn 100 192.168.1.1"
+	if [[ $# -ne 4 ]];then
+		echo "hostgen host name prefix (e.g: cn); start from (e.g: 10);  first ip address (e.g: 192.168.1.1); number of host (e.g: 100);"
+		echo "hostgen cn 10 192.168.1.1 100"
 	else
 		PREFIX=$1
-		COUNT=$2
+		START=$2
 		STARTIP=$3
+		COUNT=$4
 		ENDIP=$(itoa $(expr $(atoi $STARTIP) + $COUNT - 1))
 
- 		seq -f "${PREFIX}%0${#COUNT}g" 1 $COUNT > /tmp/file1
+ 		seq -f "${PREFIX}%0${#COUNT}g" $START $(expr $START + $COUNT - 1) > /tmp/file1
 		prips $STARTIP $ENDIP > /tmp/file2
 		paste /tmp/file1 /tmp/file2
 	fi
