@@ -8,6 +8,9 @@ complete -cf which
 #autocomplete ssh commands with the hostname
 complete -W "$(echo `cat ~/.ssh/known_hosts 2> /dev/null | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v "\["`;)" ssh
 
+# Disable Ctrl-D to exit terminal
+set -o ignoreeof
+
 #Aliases
 #alias trash='mv -t ~/.local/share/Trash/files'
 alias system-update='sudo apt-get update && time sudo apt-get dist-upgrade'
