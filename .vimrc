@@ -10,7 +10,7 @@ set nu                  " line numbers
 set ic                  " case insensitive search
 set history=1000        " remember more commands and search history
 set undolevels=1000     " use many muchos levels of undo
-colorscheme murphy     " colorscheme 
+colorscheme pablo     " colorscheme 
 
 map <f2> :ls<cr>:b<space>
 map <f1> :ls<cr>
