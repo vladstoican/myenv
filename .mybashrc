@@ -16,6 +16,8 @@ complete -W "$(echo `cat ~/.ssh/known_hosts 2> /dev/null | cut -f 1 -d ' ' | sed
 alias system-update='sudo apt-get update && time sudo apt-get dist-upgrade'
 alias install='sudo apt-get install $1'
 alias search='sudo apt-cache search $1'
+
+alias sbb='sudo $(fc -ln -1)'
 alias cpv='rsync -ah --info=progress2'
 alias lt='du -sh * | sort -h'
 alias v='f -e vim' # quick opening files with vim
