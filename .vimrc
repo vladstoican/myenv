@@ -12,10 +12,10 @@ set history=1000        " remember more commands and search history
 set undolevels=1000     " use many muchos levels of undo
 
 " Use persistent history.
-if !isdirectory("/tmp/.vim-undo-dir")
-    call mkdir("/tmp/.vim-undo-dir", "", 0700)
+if !isdirectory($HOME . "/.vim/undodir")
+    call mkdir($HOME . "/.vim/undodir", "p", 0700)
 endif
-set undodir=/tmp/.vim-undo-dir
+set undodir=$HOME/.vim/undodir
 set undofile
 
 " Find files under etc folder 
@@ -31,4 +31,4 @@ nnoremap gr :!go run %<cr>
 command W w !sudo tee % > /dev/null
 
 " Colorscheme
-colorscheme pablo     " colorscheme 
+colorscheme pablo     
