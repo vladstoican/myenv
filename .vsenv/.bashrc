@@ -1,3 +1,5 @@
+source ~/.bashrc
+
 bind '"\e[A"':history-search-backward
 bind '"\e[B"':history-search-forward
 # bind '"\C-j": "\C-atime \C-m"'
@@ -5,29 +7,29 @@ bind '"\e[B"':history-search-forward
 # Auto completion
 complete -cf sudo
 complete -cf which
-#autocomplete ssh commands with the hostname
 complete -W "$(echo `cat ~/.ssh/known_hosts 2> /dev/null | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v "\["`;)" ssh
 
 # Disable Ctrl-D to exit terminal
 # set -o ignoreeof
 
 #Aliases
-#alias trash='mv -t ~/.local/share/Trash/files'
 alias system-update='sudo apt-get update && time sudo apt-get dist-upgrade'
 alias install='sudo apt-get install $1'
-alias search='sudo apt-cache search $1'
+alias search='apt-cache search $1'
 
 alias sbb='sudo $(fc -ln -1)'
 alias cpv='rsync -ah --info=progress2'
 alias lt='du -sh * | sort -h'
-alias v='f -e vim' # quick opening files with vim
+
+alias vsv='vim -u ~/.vsenv/.vimrc'
+alias vss='screen -S vlad -c ~/.vsenv/.screenrc'
 
 # Add local bin 
 if [ -d ~/bin ];then
 	export PATH=~/bin:$PATH
 fi
 
-#Easy extract
+# Easy extract
 extract () {
   if [ -f $1 ] ; then
       case $1 in
@@ -47,7 +49,7 @@ extract () {
       esac
   else
       echo "'$1' is not a valid file!"
-  fi
+  fi 
 }
 
 # Creates an archive from given directory
@@ -55,7 +57,7 @@ mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
 mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
 mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
 
-#Kill processes matching a given pattern
+# Kill processes matching a given pattern
 pskill() {
     ps ax | grep "$1" | grep -v grep | awk '{ print $1 }' | xargs kill
 }
@@ -159,32 +161,35 @@ function cl() {
 	cd "$@" && la; 
 }
 
-# Two standard functions to change $PATH
+# Standard functions to change $PATH
 add_path() { export PATH="$PATH:$1"; }
 add_pre_path() { export PATH="$1:$PATH"; }
 add_cdpath() { export CDPATH="$CDPATH:$1"; }
 
-parse_git_branch() {
-   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
 
-#export PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "{
-#export PS1="\u@\[\033[01;31m\]\h\[\033[01;34m\] \W\[\033[33m\]\$(parse_git_branch) \$\[\033[00m\] "
-export PS1='\u@\[\e[01;31m\]\h\[\e[38;5;220m\]$(parse_git_branch)\[\e[00m\] \W $ '
-
-
-#JupyterLab
+# JupyterLab
 #jlremote(){
 #	cd ~/mldl
 #	conda activate
 #	jupyter-lab --no-browser --ip=192.168.0.165
 #}
 
-#CUDA 
+# EXPORT section
+parse_git_branch() {
+   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+export PS1='\u@\[\e[01;31m\]\h\[\e[38;5;220m\]$(parse_git_branch)\[\e[00m\] \W $ '
+
+# Less pager improvement
+export LESSOPEN="| /usr/bin/lesspipe %s"
+
+# CUDA 
 #export PATH=/usr/local/cuda-10.1/bin:$PATH
 #export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64:$LD_LIBRARY_PATH
 #export CUDA_PATH=/usr/local/cuda-10.1/lib64
 #export PATH=~/bin:/opt/cmu/bin:$PATH
 
-#eval "$(fasd --init auto)"
-
+# Run screen at login
+#if [ -z "$STY" ]; then
+#    exec screen -S $USERNAME -c ~/.vsenv/.screenrc
+#fi

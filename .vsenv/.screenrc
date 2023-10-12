@@ -24,9 +24,9 @@ defscrollback 30000
 vbell off
 
 # Window numbering start at 1 not 0
-screen 1 bash
+screen 1 bash --rcfile ~/.vsenv/.bashrc 
 select 0
-bind c screen 1 
+bind c screen 1 bash --rcfile ~/.vsenv/.bashrc
 
 # Switch windows using Shift-Arrow keys
 bindkey ^[[1;2D prev
@@ -46,7 +46,8 @@ bind F eval "hardstatus alwayslastline"
 startup_message off
 altscreen on
 windowlist string "%4n %h%=%f"
-shell -${SHELL}
+#shell -${SHELL}
+shell $SHELL
 pow_detach_msg "Screen session for \${LOGNAME} \$:cr:\$:nl:ended"
 logfile "$HOME/.log/screen.%n.%Y-%m-%d"
 
