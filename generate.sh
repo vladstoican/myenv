@@ -48,7 +48,7 @@ create () {
 	tar -xzf <(base64 -d <<< "\$bindir")
 	cd -
 	
-	cp "\$0" $HOME/bin/vsenv
+	cp "\$0" \$HOME/bin/vsenv
 	rm -- "\$0"
 }
 	
