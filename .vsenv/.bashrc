@@ -183,6 +183,10 @@ export PS1='\u@\[\e[01;31m\]\h\[\e[38;5;220m\]$(parse_git_branch)\[\e[00m\] \W $
 # Less pager improvement
 export LESSOPEN="| /usr/bin/lesspipe %s"
 
+
+# Go 
+export PATH=/usr/local/go/bin:$PATH
+
 # CUDA 
 #export PATH=/usr/local/cuda-10.1/bin:$PATH
 #export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64:$LD_LIBRARY_PATH

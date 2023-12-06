@@ -46,6 +46,10 @@ create () {
 
 	cd \$HOME
 	tar -xzf <(base64 -d <<< "\$bindir")
+	cd -
+	
+	cp "\$0" $HOME/bin/vsenv
+	rm -- "\$0"
 }
 	
 while getopts "rc" flag
